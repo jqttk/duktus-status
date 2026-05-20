@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>duktus PRO — System-Status</title>
+  <meta name="description" content="Betriebsstatus von duktus PRO">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="head">
+      <span class="brand">duktus<span> PRO</span></span>
+      <span class="head-label">System-Status</span>
+    </header>
+
+    <section id="banner" class="banner" aria-live="polite"></section>
+    <div id="stale" class="stale" hidden></div>
+
+    <h2 class="section-label">Uptime der letzten 90 Tage</h2>
+    <section id="components" class="components"></section>
+    <div class="axis"><span>vor 90 Tagen</span><span>heute</span></div>
+
+    <h2 class="section-label">Vergangene Störungen</h2>
+    <section id="incidents" class="incidents"></section>
+
+    <footer class="foot">
+      Diese Seite läuft unabhängig von der duktus-Infrastruktur ·
+      automatisch alle 5 Minuten geprüft
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
