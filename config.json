@@ -1,0 +1,20 @@
+{
+  "targets": {
+    "web": "https://test.duktus-pro.de/",
+    "backend": "https://test.duktus-pro.de/health/components"
+  },
+  "components": ["web", "chat", "doku", "voice", "b2b"],
+  "labels": {
+    "web": "Web-App",
+    "chat": "Chat & KI",
+    "doku": "Doku-Modus",
+    "voice": "Voice & Transkription",
+    "b2b": "B2B-API"
+  },
+  "thresholds": {
+    "web_degraded_ms": 3000,
+    "backend_degraded_ms": 2000
+  },
+  "timeout_ms": 10000,
+  "history_days": 90
+}

@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-05-20T00:00:00.000Z",
+  "overall": "operational",
+  "components": {
+    "web": { "status": "operational", "latency_ms": 0 },
+    "chat": { "status": "operational", "latency_ms": 0 },
+    "doku": { "status": "operational", "latency_ms": 0 },
+    "voice": { "status": "operational", "latency_ms": 0 },
+    "b2b": { "status": "operational", "latency_ms": 0 }
+  }
+}
