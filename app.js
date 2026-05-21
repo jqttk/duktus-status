@@ -19,6 +19,7 @@ var STATUS_DE = {
 var REFRESH_MS = 60000;
 var HISTORY_DAYS = 90;
 var STALE_MINUTES = 15;
+var CHECK_INTERVAL_MIN = 5; // checker cadence — one bucket check ≈ 5 minutes
 var SVG_NS = 'http://www.w3.org/2000/svg';
 
 // First paint animates; refreshes (every 60s) do not.
@@ -44,6 +45,30 @@ function relativeTime(iso) {
 function formatDate(key) {
   var p = key.split('-');
   return p[2] + '.' + p[1] + '.' + p[0];
+}
+
+// Estimate a duration from a count of 5-minute checks.
+function formatDuration(checks) {
+  var min = checks * CHECK_INTERVAL_MIN;
+  if (min < 60) return '~' + min + ' Min';
+  var h = Math.floor(min / 60);
+  var m = min % 60;
+  return m === 0 ? '~' + h + ' Std' : '~' + h + ' Std ' + m + ' Min';
+}
+
+// Hover text for one day's bar — includes how long the day was disrupted.
+function cellTooltip(key, bucket) {
+  var d = formatDate(key);
+  if (!bucket || bucket.total === 0) return d + ' — keine Daten';
+  var real = bucket.up + bucket.degraded + bucket.down;
+  if (real === 0) return d + ' — Wartung';
+  var parts = [];
+  if (bucket.down > 0) parts.push(formatDuration(bucket.down) + ' Ausfall');
+  if (bucket.degraded > 0) {
+    parts.push(formatDuration(bucket.degraded) + ' eingeschränkt');
+  }
+  if (parts.length === 0) return d + ' — keine Störung';
+  return d + ' — ' + parts.join(', ');
 }
 
 // Color of one day's bar. Maintenance checks are excluded from the
@@ -148,9 +173,14 @@ function renderBanner(status, animate) {
   var icon = el('span', 'banner-icon');
   icon.appendChild(statusIcon(status.overall));
 
-  var sub = (status.overall === 'maintenance' && status.note)
-    ? status.note
-    : 'Aktualisiert ' + relativeTime(status.checked_at);
+  var sub;
+  if (status.overall === 'down') {
+    sub = 'Wir haben das Problem erkannt und arbeiten an einer Lösung.';
+  } else if (status.overall === 'maintenance' && status.note) {
+    sub = status.note;
+  } else {
+    sub = 'Aktualisiert ' + relativeTime(status.checked_at);
+  }
 
   var text = el('div');
   text.append(
@@ -202,10 +232,9 @@ function renderComponents(status, uptime, animate) {
     var bar = el('div', 'bar');
     bar.setAttribute('aria-hidden', 'true');
     for (var c = 0; c < cells.length; c++) {
-      var color = bucketColor(cells[c].bucket);
       var cell = el('i');
-      cell.dataset.status = color;
-      cell.title = formatDate(cells[c].key) + ' — ' + STATUS_DE[color];
+      cell.dataset.status = bucketColor(cells[c].bucket);
+      cell.title = cellTooltip(cells[c].key, cells[c].bucket);
       bar.append(cell);
     }
 
@@ -214,39 +243,74 @@ function renderComponents(status, uptime, animate) {
   }
 }
 
-function renderIncidents(incidents) {
+// Honest caption while the 90-day history is still filling up.
+function renderMonitorSince(uptime) {
+  var host = document.getElementById('monitor-since');
+  if (!host) return;
+  var days = (uptime && uptime.days) || [];
+  if (days.length === 0) {
+    host.textContent = 'Überwachung gerade gestartet · Verlauf füllt sich täglich';
+    host.hidden = false;
+  } else if (days.length < HISTORY_DAYS) {
+    host.textContent = 'Überwachung seit ' + formatDate(days[0].date)
+      + ' · Verlauf füllt sich täglich';
+    host.hidden = false;
+  } else {
+    host.hidden = true; // history is full — caption no longer needed
+  }
+}
+
+function renderIncidents(incidents, status) {
   var host = document.getElementById('incidents');
   host.replaceChildren();
 
-  if (!incidents || incidents.length === 0) {
-    host.append(el('div', 'incident-empty',
-      'Keine Störungen in den letzten 14 Tagen gemeldet.'));
-    return;
+  var hasManual = incidents && incidents.length > 0;
+  var liveOutage = status && status.overall === 'down';
+
+  // Automatic notice while a real outage is ongoing — no manual edit needed.
+  if (liveOutage) {
+    var auto = el('article', 'incident');
+    auto.dataset.severity = 'down';
+    var ahead = el('div', 'incident-head');
+    ahead.append(
+      el('span', 'incident-title', 'Aktuelle Störung'),
+      el('span', 'incident-date', 'Aktiv'),
+    );
+    var aline = el('div', 'incident-update');
+    aline.append(el('span', null,
+      'Wir haben eine Störung festgestellt und arbeiten an einer Lösung.'));
+    auto.append(ahead, aline);
+    host.append(auto);
   }
 
-  for (var i = 0; i < incidents.length; i++) {
-    var inc = incidents[i];
-    var card = el('article', 'incident');
-    card.dataset.severity = inc.severity || 'degraded';
+  if (hasManual) {
+    for (var i = 0; i < incidents.length; i++) {
+      var inc = incidents[i];
+      var card = el('article', 'incident');
+      card.dataset.severity = inc.severity || 'degraded';
 
-    var head = el('div', 'incident-head');
-    head.append(
-      el('span', 'incident-title', inc.title || 'Störung'),
-      el('span', 'incident-date',
-        (inc.date || '') + (inc.resolved ? ' · behoben' : ' · aktiv')),
-    );
-    card.append(head);
-
-    var updates = inc.updates || [];
-    for (var u = 0; u < updates.length; u++) {
-      var line = el('div', 'incident-update');
-      line.append(
-        el('span', 'incident-time', updates[u].time || ''),
-        el('span', null, updates[u].text || ''),
+      var head = el('div', 'incident-head');
+      head.append(
+        el('span', 'incident-title', inc.title || 'Störung'),
+        el('span', 'incident-date',
+          (inc.date || '') + (inc.resolved ? ' · behoben' : ' · aktiv')),
       );
-      card.append(line);
+      card.append(head);
+
+      var updates = inc.updates || [];
+      for (var u = 0; u < updates.length; u++) {
+        var line = el('div', 'incident-update');
+        line.append(
+          el('span', 'incident-time', updates[u].time || ''),
+          el('span', null, updates[u].text || ''),
+        );
+        card.append(line);
+      }
+      host.append(card);
     }
-    host.append(card);
+  } else if (!liveOutage) {
+    host.append(el('div', 'incident-empty',
+      'Keine Störungen in den letzten 14 Tagen gemeldet.'));
   }
 }
 
@@ -260,7 +324,8 @@ function load() {
     renderBanner(results[0], animate);
     renderStale(results[0]);
     renderComponents(results[0], results[1], animate);
-    renderIncidents(results[2]);
+    renderMonitorSince(results[1]);
+    renderIncidents(results[2], results[0]);
     firstPaint = false;
   }).catch(function () {
     var banner = document.getElementById('banner');

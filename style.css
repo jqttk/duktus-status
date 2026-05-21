@@ -233,6 +233,12 @@ body {
   color: var(--muted);
   margin-top: 7px;
 }
+.monitor-since {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 9px;
+}
 
 /* incidents */
 .incident-empty {
@@ -250,6 +256,7 @@ body {
   margin-bottom: 9px;
 }
 .incident-title { font-weight: 600; letter-spacing: -0.004em; }
+.incident[data-severity="down"] .incident-title { color: var(--down); }
 .incident-date { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .incident-update {
   display: flex;
