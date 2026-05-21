@@ -13,6 +13,7 @@ var STATUS_DE = {
   operational: 'betriebsbereit',
   degraded: 'eingeschränkt',
   down: 'Störung',
+  maintenance: 'Wartung',
   none: 'keine Daten',
 };
 var REFRESH_MS = 60000;
@@ -45,11 +46,14 @@ function formatDate(key) {
   return p[2] + '.' + p[1] + '.' + p[0];
 }
 
-// Color of one day's bar: green if clean, red if >5% down, else amber.
+// Color of one day's bar. Maintenance checks are excluded from the
+// up/down judgement; a day that was nothing but maintenance shows blue.
 function bucketColor(bucket) {
   if (!bucket || bucket.total === 0) return 'none';
+  var real = bucket.up + bucket.degraded + bucket.down;
+  if (real === 0) return 'maintenance';
   if (bucket.down === 0 && bucket.degraded === 0) return 'operational';
-  if (bucket.down / bucket.total > 0.05) return 'down';
+  if (bucket.down / real > 0.05) return 'down';
   return 'degraded';
 }
 
@@ -71,15 +75,17 @@ function dayCells(uptime, comp, days) {
   return out;
 }
 
+// Uptime % excludes maintenance checks from the denominator, so a
+// planned nightly window does not drag the figure down.
 function uptimePct(cells) {
   var up = 0;
-  var total = 0;
+  var real = 0;
   for (var i = 0; i < cells.length; i++) {
     var b = cells[i].bucket;
-    if (b) { up += b.up; total += b.total; }
+    if (b) { up += b.up; real += b.up + b.degraded + b.down; }
   }
-  if (total === 0) return null;
-  return (up / total) * 100;
+  if (real === 0) return null;
+  return (up / real) * 100;
 }
 
 function el(tag, className, text) {
@@ -95,17 +101,34 @@ function statusIcon(kind) {
   svg.setAttribute('width', '16');
   svg.setAttribute('height', '16');
   svg.setAttribute('aria-hidden', 'true');
+
+  function stroke(node) {
+    node.setAttribute('fill', 'none');
+    node.setAttribute('stroke', 'currentColor');
+    node.setAttribute('stroke-width', '2.5');
+    node.setAttribute('stroke-linecap', 'round');
+    node.setAttribute('stroke-linejoin', 'round');
+    return node;
+  }
+
+  if (kind === 'maintenance') {
+    var circle = document.createElementNS(SVG_NS, 'circle');
+    circle.setAttribute('cx', '12');
+    circle.setAttribute('cy', '12');
+    circle.setAttribute('r', '8');
+    svg.appendChild(stroke(circle));
+    var hands = document.createElementNS(SVG_NS, 'path');
+    hands.setAttribute('d', 'M12 7.6V12l3 1.8');
+    svg.appendChild(stroke(hands));
+    return svg;
+  }
+
   var d = kind === 'operational' ? 'M5 12.5l4.2 4.2L19 7'
     : kind === 'down' ? 'M7 7l10 10M17 7L7 17'
     : 'M12 6.5v7.5M12 17.4v.1';
   var path = document.createElementNS(SVG_NS, 'path');
   path.setAttribute('d', d);
-  path.setAttribute('fill', 'none');
-  path.setAttribute('stroke', 'currentColor');
-  path.setAttribute('stroke-width', '2.6');
-  path.setAttribute('stroke-linecap', 'round');
-  path.setAttribute('stroke-linejoin', 'round');
-  svg.appendChild(path);
+  svg.appendChild(stroke(path));
   return svg;
 }
 
@@ -119,15 +142,20 @@ function renderBanner(status, animate) {
     operational: 'Alle Systeme betriebsbereit',
     degraded: 'Eingeschränkter Betrieb',
     down: 'Störung',
+    maintenance: 'Geplante Wartung',
   };
 
   var icon = el('span', 'banner-icon');
   icon.appendChild(statusIcon(status.overall));
 
+  var sub = (status.overall === 'maintenance' && status.note)
+    ? status.note
+    : 'Aktualisiert ' + relativeTime(status.checked_at);
+
   var text = el('div');
   text.append(
     el('div', 'banner-title', titles[status.overall] || 'Status unbekannt'),
-    el('div', 'banner-sub', 'Aktualisiert ' + relativeTime(status.checked_at)),
+    el('div', 'banner-sub', sub),
   );
   host.append(icon, text);
 }

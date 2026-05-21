@@ -16,5 +16,12 @@
     "backend_degraded_ms": 2000
   },
   "timeout_ms": 10000,
-  "history_days": 90
+  "history_days": 90,
+  "maintenance": {
+    "timezone": "Europe/Berlin",
+    "label": "Planmäßige nächtliche Wartung (00:00–06:00 Uhr)",
+    "windows": [
+      { "start": "00:00", "end": "06:00" }
+    ]
+  }
 }

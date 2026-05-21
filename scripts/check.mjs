@@ -1,8 +1,9 @@
-// Status checker entry point. Run by .github/workflows/check.yml every 5 min,
-// or locally with: node scripts/check.mjs
+// Status checker entry point. Run by .github/workflows/status_check.yml
+// every 5 min, or locally with: node scripts/check.mjs
 import { readFile, writeFile } from 'node:fs/promises';
 import {
   classify, mergeBackendStatuses, buildStatus, updateUptime,
+  inMaintenance, applyMaintenance,
 } from './lib.mjs';
 
 // Repo root, resolved relative to this file (works on Linux CI and Windows).
@@ -50,7 +51,9 @@ async function main() {
     process.exit(1);
   }
 
-  const checkedAt = new Date().toISOString();
+  const now = new Date();
+  const checkedAt = now.toISOString();
+  const maint = inMaintenance(now, cfg.maintenance);
 
   // --- Web-App: probe the frontend URL directly ---
   const web = await probe(cfg.targets.web, cfg.timeout_ms);
@@ -58,14 +61,14 @@ async function main() {
     web.ok, web.status, web.latency, cfg.thresholds.web_degraded_ms,
   );
 
-  // --- Backend components: one probe of /health/components ---
+  // --- Backend components: one probe of /api/status/components ---
   const be = await probe(cfg.targets.backend, cfg.timeout_ms);
   const beReachable = be.ok && be.status >= 200 && be.status < 300;
   const backend = mergeBackendStatuses(beReachable ? be.body : null);
   // Reachable but slow -> downgrade otherwise-operational components.
   const beSlow = beReachable && be.latency > cfg.thresholds.backend_degraded_ms;
 
-  const components = {
+  let components = {
     web: { status: webStatus, latency_ms: web.latency },
   };
   for (const k of ['chat', 'doku', 'voice', 'b2b']) {
@@ -74,8 +77,14 @@ async function main() {
     components[k] = { status: s, latency_ms: be.latency };
   }
 
+  // During a planned maintenance window, down/degraded -> maintenance.
+  components = applyMaintenance(components, maint);
+
   // --- Write current snapshot ---
   const status = buildStatus(checkedAt, components);
+  if (maint && cfg.maintenance && cfg.maintenance.label) {
+    status.note = cfg.maintenance.label;
+  }
   await writeJson('data/status.json', status);
 
   // --- Update rolling history ---
@@ -88,8 +97,8 @@ async function main() {
   );
   await writeJson('data/uptime.json', updated);
 
-  console.log(`[check] ${checkedAt} overall=${status.overall} ` +
-    Object.entries(components).map(([k, v]) => `${k}=${v.status}`).join(' '));
+  console.log(`[check] ${checkedAt} maintenance=${maint} overall=${status.overall} `
+    + Object.entries(components).map(([k, v]) => `${k}=${v.status}`).join(' '));
 }
 
 main();
