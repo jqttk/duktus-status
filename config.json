@@ -1,7 +1,7 @@
 {
   "targets": {
     "web": "https://test.duktus-pro.de/",
-    "backend": "https://test.duktus-pro.de/health/components"
+    "backend": "https://test.duktus-pro.de/api/status/components"
   },
   "components": ["web", "chat", "doku", "voice", "b2b"],
   "labels": {
