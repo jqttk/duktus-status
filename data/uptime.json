@@ -3,34 +3,39 @@
     {
       "date": "2026-05-21",
       "web": {
-        "up": 3,
+        "up": 4,
         "degraded": 0,
         "down": 0,
-        "total": 3
+        "maintenance": 0,
+        "total": 4
       },
       "chat": {
         "up": 1,
         "degraded": 0,
         "down": 2,
-        "total": 3
+        "maintenance": 1,
+        "total": 4
       },
       "doku": {
         "up": 1,
         "degraded": 0,
         "down": 2,
-        "total": 3
+        "maintenance": 1,
+        "total": 4
       },
       "voice": {
         "up": 1,
         "degraded": 0,
         "down": 2,
-        "total": 3
+        "maintenance": 1,
+        "total": 4
       },
       "b2b": {
         "up": 1,
         "degraded": 0,
         "down": 2,
-        "total": 3
+        "maintenance": 1,
+        "total": 4
       }
     }
   ]
