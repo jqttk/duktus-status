@@ -26,7 +26,7 @@
   --down:        oklch(0.565 0.185 27);
   --down-bg:     oklch(0.960 0.028 27);
   --down-border: oklch(0.892 0.055 27);
-  --none: oklch(0.928 0.005 303);
+  --none: oklch(0.886 0.006 303);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -52,7 +52,7 @@
     --down:        oklch(0.660 0.170 27);
     --down-bg:     oklch(0.296 0.052 27);
     --down-border: oklch(0.396 0.078 27);
-    --none: oklch(0.318 0.008 303);
+    --none: oklch(0.430 0.010 303);
   }
 }
 
@@ -208,7 +208,6 @@ body {
 .bar i[data-status="down"]     { background: var(--down); }
 .bar i[data-status="none"] {
   background: var(--none);
-  height: 32%;
 }
 .bar i:hover { filter: brightness(1.12) saturate(1.08); }
 
