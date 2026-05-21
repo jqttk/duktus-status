@@ -9,9 +9,19 @@ var LABELS = {
   voice: 'Voice & Transkription',
   b2b: 'B2B-API',
 };
+var STATUS_DE = {
+  operational: 'betriebsbereit',
+  degraded: 'eingeschränkt',
+  down: 'Störung',
+  none: 'keine Daten',
+};
 var REFRESH_MS = 60000;
 var HISTORY_DAYS = 90;
 var STALE_MINUTES = 15;
+var SVG_NS = 'http://www.w3.org/2000/svg';
+
+// First paint animates; refreshes (every 60s) do not.
+var firstPaint = true;
 
 function getJson(path) {
   // Cache-bust so an open tab always sees the latest committed data.
@@ -30,6 +40,11 @@ function relativeTime(iso) {
   return h === 1 ? 'vor 1 Stunde' : 'vor ' + h + ' Stunden';
 }
 
+function formatDate(key) {
+  var p = key.split('-');
+  return p[2] + '.' + p[1] + '.' + p[0];
+}
+
 // Color of one day's bar: green if clean, red if >5% down, else amber.
 function bucketColor(bucket) {
   if (!bucket || bucket.total === 0) return 'none';
@@ -38,8 +53,8 @@ function bucketColor(bucket) {
   return 'degraded';
 }
 
-// Build a fixed-length array of day buckets (oldest first) for one component.
-function dayBuckets(uptime, comp, days) {
+// Fixed-length array of { key, bucket } for one component, oldest first.
+function dayCells(uptime, comp, days) {
   var byDate = {};
   var list = (uptime && uptime.days) || [];
   for (var i = 0; i < list.length; i++) {
@@ -50,19 +65,18 @@ function dayBuckets(uptime, comp, days) {
   for (var d = days - 1; d >= 0; d--) {
     var dt = new Date(today);
     dt.setDate(today.getDate() - d);
-    out.push(byDate[dt.toISOString().slice(0, 10)] || null);
+    var key = dt.toISOString().slice(0, 10);
+    out.push({ key: key, bucket: byDate[key] || null });
   }
   return out;
 }
 
-function uptimePct(buckets) {
+function uptimePct(cells) {
   var up = 0;
   var total = 0;
-  for (var i = 0; i < buckets.length; i++) {
-    if (buckets[i]) {
-      up += buckets[i].up;
-      total += buckets[i].total;
-    }
+  for (var i = 0; i < cells.length; i++) {
+    var b = cells[i].bucket;
+    if (b) { up += b.up; total += b.total; }
   }
   if (total === 0) return null;
   return (up / total) * 100;
@@ -75,25 +89,47 @@ function el(tag, className, text) {
   return node;
 }
 
-function renderBanner(status) {
+function statusIcon(kind) {
+  var svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('width', '16');
+  svg.setAttribute('height', '16');
+  svg.setAttribute('aria-hidden', 'true');
+  var d = kind === 'operational' ? 'M5 12.5l4.2 4.2L19 7'
+    : kind === 'down' ? 'M7 7l10 10M17 7L7 17'
+    : 'M12 6.5v7.5M12 17.4v.1';
+  var path = document.createElementNS(SVG_NS, 'path');
+  path.setAttribute('d', d);
+  path.setAttribute('fill', 'none');
+  path.setAttribute('stroke', 'currentColor');
+  path.setAttribute('stroke-width', '2.6');
+  path.setAttribute('stroke-linecap', 'round');
+  path.setAttribute('stroke-linejoin', 'round');
+  svg.appendChild(path);
+  return svg;
+}
+
+function renderBanner(status, animate) {
   var host = document.getElementById('banner');
   host.replaceChildren();
   host.dataset.status = status.overall;
+  host.classList.toggle('banner--in', animate);
 
   var titles = {
     operational: 'Alle Systeme betriebsbereit',
     degraded: 'Eingeschränkter Betrieb',
     down: 'Störung',
   };
-  var icons = { operational: '✓', degraded: '!', down: '×' };
 
-  host.append(el('span', 'banner-icon', icons[status.overall] || '!'));
+  var icon = el('span', 'banner-icon');
+  icon.appendChild(statusIcon(status.overall));
+
   var text = el('div');
   text.append(
     el('div', 'banner-title', titles[status.overall] || 'Status unbekannt'),
     el('div', 'banner-sub', 'Aktualisiert ' + relativeTime(status.checked_at)),
   );
-  host.append(text);
+  host.append(icon, text);
 }
 
 function renderStale(status) {
@@ -108,34 +144,40 @@ function renderStale(status) {
   }
 }
 
-function renderComponents(status, uptime) {
+function renderComponents(status, uptime, animate) {
   var host = document.getElementById('components');
   host.replaceChildren();
 
   for (var i = 0; i < ORDER.length; i++) {
     var key = ORDER[i];
-    var cur = (status.components && status.components[key])
-      || { status: 'down' };
-    var buckets = dayBuckets(uptime, key, HISTORY_DAYS);
+    var cur = (status.components && status.components[key]) || { status: 'down' };
+    var cells = dayCells(uptime, key, HISTORY_DAYS);
+    var pct = uptimePct(cells);
+    var pctText = pct === null
+      ? '– Uptime'
+      : pct.toFixed(2).replace('.', ',') + ' % Uptime';
 
-    var row = el('div', 'row');
+    var row = el('div', animate ? 'row row--in' : 'row');
+    row.style.setProperty('--i', i);
+    row.setAttribute('role', 'listitem');
+    row.setAttribute('aria-label',
+      LABELS[key] + ': ' + STATUS_DE[cur.status] + ', ' + pctText);
 
     var top = el('div', 'row-top');
     var name = el('span', 'row-name');
     var dot = el('span', 'dot');
     dot.dataset.status = cur.status;
+    dot.setAttribute('aria-hidden', 'true');
     name.append(dot, el('span', null, LABELS[key]));
-
-    var pct = uptimePct(buckets);
-    var pctText = pct === null
-      ? '– Uptime'
-      : pct.toFixed(2).replace('.', ',') + ' % Uptime';
     top.append(name, el('span', 'row-pct', pctText));
 
     var bar = el('div', 'bar');
-    for (var b = 0; b < buckets.length; b++) {
+    bar.setAttribute('aria-hidden', 'true');
+    for (var c = 0; c < cells.length; c++) {
+      var color = bucketColor(cells[c].bucket);
       var cell = el('i');
-      cell.dataset.status = bucketColor(buckets[b]);
+      cell.dataset.status = color;
+      cell.title = formatDate(cells[c].key) + ' — ' + STATUS_DE[color];
       bar.append(cell);
     }
 
@@ -181,16 +223,17 @@ function renderIncidents(incidents) {
 }
 
 function load() {
+  var animate = firstPaint;
   Promise.all([
     getJson('data/status.json'),
     getJson('data/uptime.json').catch(function () { return { days: [] }; }),
     getJson('data/incidents.json').catch(function () { return []; }),
   ]).then(function (results) {
-    var status = results[0];
-    renderBanner(status);
-    renderStale(status);
-    renderComponents(status, results[1]);
+    renderBanner(results[0], animate);
+    renderStale(results[0]);
+    renderComponents(results[0], results[1], animate);
     renderIncidents(results[2]);
+    firstPaint = false;
   }).catch(function () {
     var banner = document.getElementById('banner');
     banner.replaceChildren();
