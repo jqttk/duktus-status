@@ -1,0 +1,225 @@
+/* ============================================
+   duktus — Matte Ceramic · Shared brand components
+   SINGLE SOURCE OF TRUTH for the cross-surface TopBar + Footer.
+   Self-contained: depends ONLY on tokens.css custom properties.
+   Mirrors the marketing reference (src/shell.jsx) 1:1 so tools, docs
+   and status render an identical bar + footer.
+   Edit HERE only, then run `npm run brand:sync`.
+   ============================================ */
+
+/* ─────────────── Layout container (= marketing .container) ─────────────── */
+.dk-container {
+  width: min(1240px, 100% - clamp(2.5rem, 6vw, 5rem));
+  margin: 0 auto;
+}
+
+/* ─────────────── Logomark + Wordmark ─────────────── */
+.dk-logomark { flex: none; color: var(--iris-600); display: block; }
+
+.dk-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  text-decoration: none;
+  line-height: 1;
+}
+.dk-wordmark__name { color: var(--fg); }
+.dk-wordmark__suffix {
+  font-weight: 500;
+  color: var(--fg-muted);
+  letter-spacing: -0.01em;
+}
+.dk-wordmark__suffix::before { content: "·"; margin: 0 7px 0 6px; color: var(--border-strong); }
+
+/* ─────────────── TopBar (= marketing .vellum-nav) ─────────────── */
+.dk-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 82%, white 18%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
+}
+.dk-topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 0;
+}
+.dk-nav {
+  display: flex;
+  gap: 24px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+}
+.dk-nav__link {
+  color: var(--fg-1);
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-snap);
+}
+.dk-nav__link:hover { color: var(--fg); }
+.dk-nav__link[aria-current="page"],
+.dk-nav__link.is-active {
+  color: var(--iris-700);
+  border-bottom-color: var(--iris-500);
+}
+.dk-topbar__cta { display: flex; gap: 10px; align-items: center; }
+
+/* ─────────────── Buttons (= marketing .btn family) ─────────────── */
+.dk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius-xl);
+  font: 500 14px/1 var(--font-display);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform var(--dur-press) var(--ease-snap),
+              background var(--dur-fast) var(--ease-snap),
+              box-shadow var(--dur-fast) var(--ease-snap),
+              color var(--dur-fast) var(--ease-snap),
+              border-color var(--dur-fast) var(--ease-snap);
+}
+.dk-btn--sm { padding: 8px 14px; font-size: 13px; }
+.dk-btn--primary {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: var(--aura-shadow-inset), var(--aura-shadow-sm);
+}
+.dk-btn--ghost { background: transparent; color: var(--fg-1); }
+@media (hover: hover) and (pointer: fine) {
+  .dk-btn--primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--aura-shadow); }
+  .dk-btn--ghost:hover { background: var(--ceramic-100); }
+}
+.dk-btn:active { transform: scale(0.97); }
+.dk-btn--primary:active { transform: translateY(0) scale(0.97); }
+
+/* ─────────────── Burger (mobile) ─────────────── */
+.dk-burger {
+  display: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--fg);
+}
+.dk-mobile-nav {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 0 20px;
+  border-top: 1px solid var(--border-soft);
+}
+.dk-mobile-nav.is-open { display: flex; }
+.dk-mobile-nav__link {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg-1);
+  text-decoration: none;
+}
+.dk-mobile-nav__link[aria-current="page"],
+.dk-mobile-nav__link.is-active {
+  color: var(--iris-700);
+  background: var(--iris-100);
+}
+
+/* ─────────────── Tags (= marketing .tag) ─────────────── */
+.dk-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: var(--radius-full);
+  font: 500 12px/1.2 var(--font-display);
+  background: var(--iris-100);
+  color: var(--iris-700);
+}
+.dk-tag--neutral { background: var(--ceramic-200); color: var(--fg-2); }
+
+/* ─────────────── Footer (= marketing Footer) ─────────────── */
+.dk-footer {
+  padding: 96px 0 56px;
+  border-top: 1px solid var(--border-soft);
+  background: var(--ceramic-100);
+  color: var(--fg-1);
+  font-family: var(--font-display);
+}
+.dk-footer a { color: inherit; text-decoration: none; }
+.dk-footer__grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+.dk-footer__intro { font-size: 13px; color: var(--fg-2); margin: 16px 0 20px; max-width: 300px; line-height: 1.6; }
+.dk-footer__tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.dk-footer__heading {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-bottom: 14px;
+}
+.dk-footer__col-links { display: flex; flex-direction: column; gap: 10px; }
+.dk-footer__link { font-size: 14px; color: var(--fg-1); transition: color var(--dur-fast) var(--ease-snap); }
+.dk-footer__link:hover { color: var(--iris-700); }
+.dk-footer__bottom {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-soft);
+}
+.dk-footer__legal { margin: 0 0 16px; font-size: 12px; color: var(--fg-muted); line-height: 1.6; max-width: 880px; }
+.dk-footer__legal strong { color: var(--fg-2); font-weight: 600; }
+.dk-footer__legal a { color: var(--iris-700); text-decoration: underline; text-underline-offset: 2px; }
+.dk-footer__meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+.dk-footer__meta a, .dk-footer__meta button { color: var(--iris-700); }
+.dk-footer__cookie {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  color: var(--iris-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ─────────────── Responsive ─────────────── */
+@media (min-width: 981px) {
+  .dk-burger, .dk-mobile-nav { display: none !important; }
+}
+@media (max-width: 980px) {
+  .dk-nav, .dk-topbar__cta { display: none !important; }
+  .dk-burger { display: inline-flex; }
+  .dk-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+}
+@media (max-width: 720px) {
+  .dk-footer__grid { grid-template-columns: 1fr; }
+}

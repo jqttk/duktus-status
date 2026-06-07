@@ -1,0 +1,185 @@
+/* ============================================
+   duktus — Matte Ceramic Design System
+   SINGLE SOURCE OF TRUTH for design tokens.
+   Edit HERE only, then run `npm run brand:sync`.
+   Synced to: public/styles/tokens.css · tools/public/brand/ ·
+              docs/docs/public/brand/ · ../duktus-status/brand/
+   ============================================ */
+
+/* ──────────────────────────── FONT FACES ────────────────────────────
+   All three brand families are self-hosted as variable fonts from /fonts/.
+   Absolute URLs so this one file resolves identically on every surface. */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  src: url('/fonts/InstrumentSans-VariableFont_wdth_wght.ttf') format('truetype-variations');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/Newsreader-VariableFont_opsz_wght.ttf') format('truetype-variations');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono-VariableFont_wght.ttf') format('truetype-variations');
+}
+:root {
+  /* ──────────────────────────── COLOR — Raw palette ────────────────────────────
+     duktus-pro.de Squarespace-Palette (verifiziert 2026-04-23, site.css):
+     accent #685AE6 · darkAccent #8A7AEF · lightAccent #E6E3F6 · ink #19192D · bg #F7F8FB
+     Darauf basierend aufgebaut: Iris-Scale = primary purple, Violet-Scale = deep plum accent. */
+
+  /* Iris — primary purple family (matches duktus-pro.de accent) */
+  --iris-50:  #F2F0FB;
+  --iris-100: #E6E3F6;   /* = duktus-pro.de lightAccent */
+  --iris-200: #CDC6ED;
+  --iris-300: #ACA0E4;
+  --iris-400: #8A7AEF;   /* = duktus-pro.de darkAccent (lighter hover) */
+  --iris-500: #685AE6;   /* = duktus-pro.de accent — primary default */
+  --iris-600: #4F44B8;
+  --iris-700: #3A3190;
+  --iris-800: #28225C;
+
+  /* Violet — deeper plum accent for emphasis contrast (serif emphasis words, eyebrow-accent) */
+  --violet-50:  #F7F0FA;
+  --violet-100: #ECDCF3;
+  --violet-200: #D6B4E2;
+  --violet-300: #BA88CB;
+  --violet-400: #9C5EAF;
+  --violet-500: #7A3B8E;   /* accent default — deep plum, klarer Kontrast zu iris (serif-Emphasis) */
+  --violet-600: #5E2C6E;
+  --violet-700: #42204E;
+
+  /* Ceramic — cool-neutral ink scale (kept name, remapped from warm-beige to ink-neutral) */
+  --ceramic-50:  #F7F8FB;  /* page background — kühles Off-White, = duktus-pro.de safeLightAccent */
+  --ceramic-100: #EFF0F5;  /* card background */
+  --ceramic-200: #E4E6ED;  /* subtle panel */
+  --ceramic-300: #D1D4DF;  /* soft border */
+  --ceramic-400: #9EA2B3;  /* disabled / muted */
+  --ceramic-500: #5F6275;  /* muted fg — darkened from #6E7285 for WCAG AA 4.5:1 */
+  --ceramic-600: #484B5D;  /* secondary fg */
+  --ceramic-700: #2F3242;  /* body fg */
+  --ceramic-800: #19192D;  /* heading fg — = duktus-pro.de ink */
+  --ceramic-900: #0F0F1F;  /* near-black, never #000 */
+
+  /* Semantic clinical colors (used sparingly — never as decoration) */
+  --semantic-success: #3E7D5E;   /* muted moss-green */
+  --semantic-info:    #4A6B85;   /* muted blue-slate */
+  --semantic-warn:    #C89A4A;   /* amber */
+  --semantic-danger:  #B84545;   /* muted red */
+
+  /* ──────────────────────────── COLOR — Semantic tokens ──────────────────────────── */
+  --bg:            var(--ceramic-50);     /* page */
+  --bg-elev-1:     var(--ceramic-100);    /* cards, panels */
+  --bg-elev-2:     #FFFFFF;                /* modals, floating surfaces */
+  --bg-subtle:     var(--ceramic-200);    /* muted fills */
+  --bg-inverse:    var(--ceramic-800);    /* dark surfaces */
+
+  --fg:            var(--ceramic-800);    /* primary text */
+  --fg-1:          var(--ceramic-700);    /* body */
+  --fg-2:          var(--ceramic-600);    /* secondary */
+  --fg-muted:      var(--ceramic-500);    /* hints, timestamps */
+  --fg-on-primary: #FFFFFF;
+  --fg-on-dark:    var(--ceramic-50);
+
+  --primary:       var(--iris-500);
+  --primary-hover: var(--iris-400);   /* lighter on hover — spiegelt duktus-pro.de darkAccent */
+  --primary-soft:  var(--iris-100);
+
+  --accent:        var(--violet-500);
+  --accent-hover:  var(--violet-600);
+  --accent-soft:   var(--violet-100);
+
+  --border:        var(--ceramic-300);
+  --border-soft:   rgba(25, 25, 45, 0.08);     /* ink-based border */
+  --border-strong: var(--ceramic-400);
+  --ring:          rgba(104, 90, 230, 0.35);   /* iris focus ring */
+
+  /* ──────────────────────────── TYPE — Families ──────────────────────────── */
+  --font-display: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif:   'Newsreader', "Iowan Old Style", "Source Serif Pro", Palatino, Georgia, serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  /* ──────────────────────────── TYPE — Scale (modular, 1.25) ──────────────────────────── */
+  --text-2xs:  11px;
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 16px;
+  --text-lg:   18px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  30px;
+  --text-4xl:  38px;
+  --text-5xl:  48px;
+  --text-6xl:  60px;
+
+  /* Line heights */
+  --lh-tight:   1.15;
+  --lh-snug:    1.3;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.65;
+
+  /* Weights */
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  /* Tracking */
+  --tracking-tight:  -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
+
+  /* ──────────────────────────── SPACE — 4px grid ──────────────────────────── */
+  --space-0:   0;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+  /* ──────────────────────────── RADIUS ──────────────────────────── */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  22px;
+  --radius-full: 9999px;
+
+  /* ──────────────────────────── SHADOW — Aura ──────────────────────────── */
+  /* Soft, cool, subtle — ink-based tint, nie shadow-lg. KANONISCH für alle Flächen. */
+  --aura-shadow:        0 4px 22px -6px rgba(25, 25, 45, 0.10);
+  --aura-shadow-hover:  0 10px 34px -8px rgba(25, 25, 45, 0.16);
+  --aura-shadow-inset:  inset 0 1px 0 0 rgba(255, 255, 255, 0.55);
+  --aura-shadow-sm:     0 1px 2px 0 rgba(25, 25, 45, 0.06), 0 1px 1px 0 rgba(25, 25, 45, 0.04);
+  --aura-focus-ring:    0 0 0 2px var(--iris-300);
+
+  /* ──────────────────────────── MOTION — Aura-Snap ────────────────────────────
+     Curves nach Emil Kowalski: built-in CSS easings sind zu schwach.
+     --ease-snap   = strong ease-out (entering/exiting UI)
+     --ease-smooth = strong ease-in-out (on-screen movement)
+     --ease-drawer = iOS-like (modals, drawers) */
+  --ease-snap:   cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-press:   120ms;
+  --dur-fast:    150ms;
+  --dur-base:    240ms;
+  --dur-slow:    360ms;
+  --stagger:     70ms;
+}
