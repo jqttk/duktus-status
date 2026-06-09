@@ -725,39 +725,39 @@
     {
       "date": "2026-06-09",
       "web": {
-        "up": 5,
+        "up": 6,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 5
+        "total": 6
       },
       "chat": {
-        "up": 4,
+        "up": 5,
         "degraded": 0,
         "down": 0,
         "maintenance": 1,
-        "total": 5
+        "total": 6
       },
       "doku": {
-        "up": 4,
+        "up": 5,
         "degraded": 0,
         "down": 0,
         "maintenance": 1,
-        "total": 5
+        "total": 6
       },
       "voice": {
-        "up": 4,
+        "up": 5,
         "degraded": 0,
         "down": 0,
         "maintenance": 1,
-        "total": 5
+        "total": 6
       },
       "b2b": {
-        "up": 4,
+        "up": 5,
         "degraded": 0,
         "down": 0,
         "maintenance": 1,
-        "total": 5
+        "total": 6
       }
     }
   ]
