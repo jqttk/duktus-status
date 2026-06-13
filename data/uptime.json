@@ -877,39 +877,39 @@
     {
       "date": "2026-06-13",
       "web": {
-        "up": 2,
+        "up": 3,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 2
+        "total": 3
       },
       "chat": {
-        "up": 1,
+        "up": 2,
         "degraded": 0,
         "down": 0,
         "maintenance": 1,
-        "total": 2
+        "total": 3
       },
       "doku": {
-        "up": 1,
+        "up": 2,
         "degraded": 0,
         "down": 0,
         "maintenance": 1,
-        "total": 2
+        "total": 3
       },
       "voice": {
-        "up": 1,
+        "up": 2,
         "degraded": 0,
         "down": 0,
         "maintenance": 1,
-        "total": 2
+        "total": 3
       },
       "b2b": {
-        "up": 1,
+        "up": 2,
         "degraded": 0,
         "down": 0,
         "maintenance": 1,
-        "total": 2
+        "total": 3
       }
     }
   ]
