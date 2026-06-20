@@ -1146,36 +1146,36 @@
         "up": 11,
         "degraded": 0,
         "down": 0,
-        "maintenance": 0,
-        "total": 11
+        "maintenance": 1,
+        "total": 12
       },
       "chat": {
         "up": 9,
         "degraded": 0,
         "down": 0,
-        "maintenance": 2,
-        "total": 11
+        "maintenance": 3,
+        "total": 12
       },
       "doku": {
         "up": 9,
         "degraded": 0,
         "down": 0,
-        "maintenance": 2,
-        "total": 11
+        "maintenance": 3,
+        "total": 12
       },
       "voice": {
         "up": 9,
         "degraded": 0,
         "down": 0,
-        "maintenance": 2,
-        "total": 11
+        "maintenance": 3,
+        "total": 12
       },
       "b2b": {
         "up": 9,
         "degraded": 0,
         "down": 0,
-        "maintenance": 2,
-        "total": 11
+        "maintenance": 3,
+        "total": 12
       }
     }
   ]
