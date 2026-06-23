@@ -1257,39 +1257,39 @@
     {
       "date": "2026-06-23",
       "web": {
-        "up": 7,
+        "up": 8,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 7
+        "total": 8
       },
       "chat": {
-        "up": 3,
+        "up": 4,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 7
+        "total": 8
       },
       "doku": {
-        "up": 3,
+        "up": 4,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 7
+        "total": 8
       },
       "voice": {
-        "up": 3,
+        "up": 4,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 7
+        "total": 8
       },
       "b2b": {
-        "up": 3,
+        "up": 4,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 7
+        "total": 8
       }
     }
   ]
