@@ -1295,39 +1295,39 @@
     {
       "date": "2026-06-24",
       "web": {
-        "up": 13,
+        "up": 14,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 13
+        "total": 14
       },
       "chat": {
-        "up": 9,
+        "up": 10,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 13
+        "total": 14
       },
       "doku": {
-        "up": 9,
+        "up": 10,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 13
+        "total": 14
       },
       "voice": {
-        "up": 9,
+        "up": 10,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 13
+        "total": 14
       },
       "b2b": {
-        "up": 9,
+        "up": 10,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 13
+        "total": 14
       }
     }
   ]
