@@ -1333,39 +1333,39 @@
     {
       "date": "2026-06-25",
       "web": {
-        "up": 11,
+        "up": 12,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 11
+        "total": 12
       },
       "chat": {
-        "up": 7,
+        "up": 8,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 11
+        "total": 12
       },
       "doku": {
-        "up": 7,
+        "up": 8,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 11
+        "total": 12
       },
       "voice": {
-        "up": 7,
+        "up": 8,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 11
+        "total": 12
       },
       "b2b": {
-        "up": 7,
+        "up": 8,
         "degraded": 0,
         "down": 0,
         "maintenance": 4,
-        "total": 11
+        "total": 12
       }
     }
   ]
