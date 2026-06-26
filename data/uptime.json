@@ -1371,39 +1371,39 @@
     {
       "date": "2026-06-26",
       "web": {
-        "up": 27,
+        "up": 28,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 27
+        "total": 28
       },
       "chat": {
         "up": 20,
         "degraded": 0,
         "down": 0,
-        "maintenance": 7,
-        "total": 27
+        "maintenance": 8,
+        "total": 28
       },
       "doku": {
         "up": 20,
         "degraded": 0,
         "down": 0,
-        "maintenance": 7,
-        "total": 27
+        "maintenance": 8,
+        "total": 28
       },
       "voice": {
         "up": 20,
         "degraded": 0,
         "down": 0,
-        "maintenance": 7,
-        "total": 27
+        "maintenance": 8,
+        "total": 28
       },
       "b2b": {
         "up": 20,
         "degraded": 0,
         "down": 0,
-        "maintenance": 7,
-        "total": 27
+        "maintenance": 8,
+        "total": 28
       }
     }
   ]
