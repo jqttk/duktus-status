@@ -1409,39 +1409,39 @@
     {
       "date": "2026-06-27",
       "web": {
-        "up": 35,
+        "up": 36,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 35
+        "total": 36
       },
       "chat": {
         "up": 28,
         "degraded": 0,
         "down": 0,
-        "maintenance": 7,
-        "total": 35
+        "maintenance": 8,
+        "total": 36
       },
       "doku": {
         "up": 28,
         "degraded": 0,
         "down": 0,
-        "maintenance": 7,
-        "total": 35
+        "maintenance": 8,
+        "total": 36
       },
       "voice": {
         "up": 28,
         "degraded": 0,
         "down": 0,
-        "maintenance": 7,
-        "total": 35
+        "maintenance": 8,
+        "total": 36
       },
       "b2b": {
         "up": 28,
         "degraded": 0,
         "down": 0,
-        "maintenance": 7,
-        "total": 35
+        "maintenance": 8,
+        "total": 36
       }
     }
   ]
