@@ -1447,39 +1447,39 @@
     {
       "date": "2026-06-28",
       "web": {
-        "up": 18,
+        "up": 19,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 18
+        "total": 19
       },
       "chat": {
-        "up": 15,
+        "up": 16,
         "degraded": 0,
         "down": 0,
         "maintenance": 3,
-        "total": 18
+        "total": 19
       },
       "doku": {
-        "up": 15,
+        "up": 16,
         "degraded": 0,
         "down": 0,
         "maintenance": 3,
-        "total": 18
+        "total": 19
       },
       "voice": {
-        "up": 15,
+        "up": 16,
         "degraded": 0,
         "down": 0,
         "maintenance": 3,
-        "total": 18
+        "total": 19
       },
       "b2b": {
-        "up": 15,
+        "up": 16,
         "degraded": 0,
         "down": 0,
         "maintenance": 3,
-        "total": 18
+        "total": 19
       }
     }
   ]
