@@ -1941,39 +1941,39 @@
     {
       "date": "2026-07-11",
       "web": {
-        "up": 17,
+        "up": 18,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 17
+        "total": 18
       },
       "chat": {
         "up": 15,
         "degraded": 0,
         "down": 0,
-        "maintenance": 2,
-        "total": 17
+        "maintenance": 3,
+        "total": 18
       },
       "doku": {
         "up": 15,
         "degraded": 0,
         "down": 0,
-        "maintenance": 2,
-        "total": 17
+        "maintenance": 3,
+        "total": 18
       },
       "voice": {
         "up": 15,
         "degraded": 0,
         "down": 0,
-        "maintenance": 2,
-        "total": 17
+        "maintenance": 3,
+        "total": 18
       },
       "b2b": {
         "up": 15,
         "degraded": 0,
         "down": 0,
-        "maintenance": 2,
-        "total": 17
+        "maintenance": 3,
+        "total": 18
       }
     }
   ]
