@@ -1,26 +1,27 @@
 {
-  "checked_at": "2026-07-25T21:31:20.443Z",
+  "checked_at": "2026-07-25T22:31:40.810Z",
   "overall": "operational",
   "components": {
     "web": {
       "status": "operational",
-      "latency_ms": 508
+      "latency_ms": 537
     },
     "chat": {
       "status": "operational",
-      "latency_ms": 102
+      "latency_ms": 130
     },
     "doku": {
       "status": "operational",
-      "latency_ms": 102
+      "latency_ms": 130
     },
     "voice": {
       "status": "operational",
-      "latency_ms": 102
+      "latency_ms": 130
     },
     "b2b": {
       "status": "operational",
-      "latency_ms": 102
+      "latency_ms": 130
     }
-  }
+  },
+  "note": "Planmäßige nächtliche Wartung (00:00–06:00 Uhr)"
 }
