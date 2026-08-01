@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-08-01T19:53:59.771Z",
+  "checked_at": "2026-08-01T20:42:17.397Z",
   "overall": "operational",
   "components": {
     "web": {
@@ -8,19 +8,19 @@
     },
     "chat": {
       "status": "operational",
-      "latency_ms": 158
+      "latency_ms": 127
     },
     "doku": {
       "status": "operational",
-      "latency_ms": 158
+      "latency_ms": 127
     },
     "voice": {
       "status": "operational",
-      "latency_ms": 158
+      "latency_ms": 127
     },
     "b2b": {
       "status": "operational",
-      "latency_ms": 158
+      "latency_ms": 127
     }
   }
 }
