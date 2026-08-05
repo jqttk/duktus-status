@@ -2891,39 +2891,39 @@
     {
       "date": "2026-08-05",
       "web": {
-        "up": 6,
+        "up": 7,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 6
+        "total": 7
       },
       "chat": {
-        "up": 6,
+        "up": 7,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 6
+        "total": 7
       },
       "doku": {
-        "up": 6,
+        "up": 7,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 6
+        "total": 7
       },
       "voice": {
-        "up": 6,
+        "up": 7,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 6
+        "total": 7
       },
       "b2b": {
-        "up": 6,
+        "up": 7,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 6
+        "total": 7
       }
     }
   ]
