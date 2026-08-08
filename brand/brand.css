@@ -1,10 +1,14 @@
 /* ============================================
-   duktus — Matte Ceramic · Shared brand components
+   duktus — Shared brand components (Relaunch 2026-08)
    SINGLE SOURCE OF TRUTH for the cross-surface TopBar + Footer.
    Self-contained: depends ONLY on tokens.css custom properties.
-   Mirrors the marketing reference (src/shell.jsx) 1:1 so tools, docs
-   and status render an identical bar + footer.
    Edit HERE only, then run `npm run brand:sync`.
+
+   Floating-Pill-Nav + dunkler Footer, nach dem Lovable-Relaunch
+   ("Duktus Pro Relaunch", Vorbild Framer "Healthier"). Ersetzt die
+   Matte-Ceramic-Fassung (Underline-Nav, heller Footer).
+   Arbeitet auf derselben DOM-Struktur wie brand/partials/*.html —
+   dort wurde nichts geändert, nur diese Datei.
    ============================================ */
 
 /* ─────────────── Layout container (= marketing .container) ─────────────── */
@@ -14,7 +18,7 @@
 }
 
 /* ─────────────── Logomark + Wordmark ─────────────── */
-.dk-logomark { flex: none; color: var(--iris-600); display: block; }
+.dk-logomark { flex: none; color: var(--accent); display: block; }
 
 .dk-wordmark {
   display: inline-flex;
@@ -36,52 +40,55 @@
 }
 .dk-wordmark__suffix::before { content: "·"; margin: 0 7px 0 6px; color: var(--border-strong); }
 
-/* ─────────────── TopBar (= marketing .vellum-nav) ─────────────── */
+/* ─────────────── TopBar — schwebende Pill-Nav (= marketing SiteHeader) ─────────────── */
 .dk-topbar {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--bg) 82%, white 18%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-soft);
+  padding-top: 18px;
 }
 .dk-topbar__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  padding: 18px 0;
+  gap: 20px;
+  padding: 10px 10px 10px 22px;
+  border-radius: var(--radius-full);
+  background: var(--bg);
+  box-shadow: var(--shadow-nav);
 }
 .dk-nav {
   display: flex;
-  gap: 24px;
+  align-items: center;
+  gap: 2px;
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 }
 .dk-nav__link {
   color: var(--fg-1);
-  padding-bottom: 4px;
-  border-bottom: 2px solid transparent;
+  padding: 9px 14px;
+  border-radius: var(--radius-full);
   text-decoration: none;
-  transition: color var(--dur-fast) var(--ease-snap);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease-snap), background var(--dur-fast) var(--ease-snap);
 }
-.dk-nav__link:hover { color: var(--fg); }
+.dk-nav__link:hover { background: var(--bg-subtle); color: var(--fg); }
 .dk-nav__link[aria-current="page"],
 .dk-nav__link.is-active {
-  color: var(--iris-700);
-  border-bottom-color: var(--iris-500);
+  background: var(--bg-subtle);
+  color: var(--fg);
 }
 .dk-topbar__cta { display: flex; gap: 10px; align-items: center; }
 
-/* ─────────────── Buttons (= marketing .btn family) ─────────────── */
+/* ─────────────── Buttons (= marketing PrimaryButton/SecondaryButton) ───────────────
+   --primary ist jetzt Onyx (Fast-Schwarz), nicht mehr die Markenfarbe — siehe tokens.css. */
 .dk-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-full);
   font: 500 14px/1 var(--font-display);
   border: 1px solid var(--border);
   cursor: pointer;
@@ -98,12 +105,12 @@
   background: var(--primary);
   color: #fff;
   border-color: var(--primary);
-  box-shadow: var(--aura-shadow-inset), var(--aura-shadow-sm);
+  box-shadow: var(--shadow-card);
 }
 .dk-btn--ghost { background: transparent; color: var(--fg-1); }
 @media (hover: hover) and (pointer: fine) {
-  .dk-btn--primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--aura-shadow); }
-  .dk-btn--ghost:hover { background: var(--ceramic-100); }
+  .dk-btn--primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-lift); }
+  .dk-btn--ghost:hover { background: var(--bg-subtle); }
 }
 .dk-btn:active { transform: scale(0.97); }
 .dk-btn--primary:active { transform: translateY(0) scale(0.97); }
@@ -139,8 +146,41 @@
 }
 .dk-mobile-nav__link[aria-current="page"],
 .dk-mobile-nav__link.is-active {
-  color: var(--iris-700);
-  background: var(--iris-100);
+  color: var(--fg);
+  background: var(--bg-subtle);
+}
+
+/* ─────────────── Hero-Verlauf ───────────────
+   Der weiche Blauverlauf hinter dem Seitenkopf. Gehoert ins geteilte System,
+   weil ihn jede Flaeche braucht: die schwebende Pill-Nav setzt voraus, dass
+   ETWAS hinter ihr liegt, auf dem sie schweben kann.
+
+   Wichtig ist die Platzierung — der Verlauf muss am oberen Seitenrand
+   beginnen, HINTER der Topbar, nicht erst in der ersten Sektion darunter.
+   Sonst steht die Nav auf einer flachen Flaeche und dort, wo die Sektion
+   anfaengt, entsteht eine harte Kante. Genau so lag es in tools/.
+
+   Verwendung: ein Element mit dieser Klasse absolut auf top:0 legen,
+   Inhalt darueber. Viele Stops gegen Banding.
+
+   Die oklch-Werte entsprechen der hero-gradient-Utility im Marketing
+   (src/styles.css) — bei Aenderungen beide angleichen. */
+.dk-hero-gradient {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 560px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    oklch(0.9143 0.0435 246.4) 0%,
+    oklch(0.9268 0.0378 246.6) 14%,
+    oklch(0.9401 0.0313 246.9) 30%,
+    oklch(0.9552 0.0243 247.1) 48%,
+    oklch(0.9702 0.0168 247.3) 66%,
+    oklch(0.9848 0.0086 247.5) 84%,
+    oklch(1 0 0) 100%
+  );
 }
 
 /* ─────────────── Tags (= marketing .tag) ─────────────── */
@@ -151,62 +191,68 @@
   padding: 4px 11px;
   border-radius: var(--radius-full);
   font: 500 12px/1.2 var(--font-display);
-  background: var(--iris-100);
-  color: var(--iris-700);
+  background: var(--accent-soft);
+  color: var(--brand-deep);
 }
-.dk-tag--neutral { background: var(--ceramic-200); color: var(--fg-2); }
+.dk-tag--neutral { background: var(--bg-subtle); color: var(--fg-2); }
 
-/* ─────────────── Footer (= marketing Footer) ─────────────── */
+/* ─────────────── Footer — dunkel (= marketing SiteFooter) ─────────────── */
 .dk-footer {
   padding: 96px 0 56px;
-  border-top: 1px solid var(--border-soft);
-  background: var(--ceramic-100);
-  color: var(--fg-1);
+  border-radius: var(--radius-card-lg) var(--radius-card-lg) 0 0;
+  background: var(--bg-inverse);
+  color: var(--fg-on-dark-2);
   font-family: var(--font-display);
 }
 .dk-footer a { color: inherit; text-decoration: none; }
+/* Tags stehen im Footer auf dunklem Grund — hier bewusst als transluzente Chips statt Marken-Blau. */
+.dk-footer .dk-tag,
+.dk-footer .dk-tag--neutral {
+  background: oklch(1 0 0 / 0.1);
+  color: var(--fg-on-dark-2);
+}
 .dk-footer__grid {
   display: grid;
   grid-template-columns: 1.6fr 1fr 1fr 1fr;
   gap: 48px;
 }
-.dk-footer__intro { font-size: 13px; color: var(--fg-2); margin: 16px 0 20px; max-width: 300px; line-height: 1.6; }
+.dk-footer__intro { font-size: 13px; color: var(--fg-on-dark-2); margin: 16px 0 20px; max-width: 300px; line-height: 1.6; }
 .dk-footer__tags { display: flex; gap: 8px; flex-wrap: wrap; }
 .dk-footer__heading {
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--fg-2);
+  color: var(--fg-on-dark-muted);
   margin-bottom: 14px;
 }
 .dk-footer__col-links { display: flex; flex-direction: column; gap: 10px; }
-.dk-footer__link { font-size: 14px; color: var(--fg-1); transition: color var(--dur-fast) var(--ease-snap); }
-.dk-footer__link:hover { color: var(--iris-700); }
+.dk-footer__link { font-size: 14px; color: var(--fg-on-dark-2); transition: color var(--dur-fast) var(--ease-snap); }
+.dk-footer__link:hover { color: var(--fg-on-dark); }
 .dk-footer__bottom {
   margin-top: 64px;
   padding-top: 24px;
-  border-top: 1px solid var(--border-soft);
+  border-top: 1px solid var(--border-on-dark);
 }
-.dk-footer__legal { margin: 0 0 16px; font-size: 12px; color: var(--fg-muted); line-height: 1.6; max-width: 880px; }
-.dk-footer__legal strong { color: var(--fg-2); font-weight: 600; }
-.dk-footer__legal a { color: var(--iris-700); text-decoration: underline; text-underline-offset: 2px; }
+.dk-footer__legal { margin: 0 0 16px; font-size: 12px; color: var(--fg-on-dark-muted); line-height: 1.6; max-width: 880px; }
+.dk-footer__legal strong { color: var(--fg-on-dark-1); font-weight: 600; }
+.dk-footer__legal a { color: var(--fg-on-dark-1); text-decoration: underline; text-underline-offset: 2px; }
 .dk-footer__meta {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
   font-size: 12px;
-  color: var(--fg-muted);
+  color: var(--fg-on-dark-muted);
 }
-.dk-footer__meta a, .dk-footer__meta button { color: var(--iris-700); }
+.dk-footer__meta a, .dk-footer__meta button { color: var(--fg-on-dark-1); }
 .dk-footer__cookie {
   background: transparent;
   border: 0;
   cursor: pointer;
   padding: 0;
   font: inherit;
-  color: var(--iris-700);
+  color: var(--fg-on-dark-1);
   text-decoration: underline;
   text-underline-offset: 2px;
 }

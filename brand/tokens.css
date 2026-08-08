@@ -1,29 +1,50 @@
 /* ============================================
-   duktus — Matte Ceramic Design System
+   duktus — Design Tokens (Relaunch 2026-08)
    SINGLE SOURCE OF TRUTH for design tokens.
    Edit HERE only, then run `npm run brand:sync`.
    Synced to: public/styles/tokens.css · tools/public/brand/ ·
               docs/docs/public/brand/ · ../duktus-status/brand/
+
+   Ersetzt die "Matte Ceramic" (Iris/Violet) Palette. Quelle: der
+   Lovable-Relaunch "Duktus Pro Relaunch" (TanStack Start), Vorbild
+   Framer-Referenz "Healthier". Josh-Entscheid 2026-08-05: dieses
+   Blau-System ist jetzt die Zielpalette für alle vier Oberflächen
+   (Marketing, Tools, Docs, Status) statt Iris/Violet.
    ============================================ */
 
 /* ──────────────────────────── FONT FACES ────────────────────────────
-   All three brand families are self-hosted as variable fonts from /fonts/.
-   Absolute URLs so this one file resolves identically on every surface. */
+   Alle Familien sind self-hosted als Variable Fonts aus /fonts/.
+   Absolute URLs, damit diese eine Datei auf jeder Oberfläche
+   identisch auflöst. Keine Google-Fonts-Requests zur Laufzeit. */
 @font-face {
-  font-family: 'Instrument Sans';
+  font-family: 'Rethink Sans';
   font-style: normal;
-  font-weight: 400 700;
-  font-stretch: 75% 100%;
+  font-weight: 400 800;
   font-display: swap;
-  src: url('/fonts/InstrumentSans-VariableFont_wdth_wght.ttf') format('truetype-variations');
+  src: url('/fonts/RethinkSans-VariableFont_wght.ttf') format('truetype-variations');
 }
 @font-face {
-  font-family: 'Newsreader';
+  font-family: 'Rethink Sans';
+  font-style: italic;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/RethinkSans-Italic-VariableFont_wght.ttf') format('truetype-variations');
+}
+@font-face {
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url('/fonts/Newsreader-VariableFont_opsz_wght.ttf') format('truetype-variations');
+  src: url('/fonts/Inter-VariableFont_opsz_wght.ttf') format('truetype-variations');
 }
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz_wght.ttf') format('truetype-variations');
+}
+/* JetBrains Mono bleibt unverändert für Codes/ICD-Werte/Versionsstände. */
 @font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
@@ -31,80 +52,106 @@
   font-display: swap;
   src: url('/fonts/JetBrainsMono-VariableFont_wght.ttf') format('truetype-variations');
 }
+/* Newsreader/--font-serif bleibt vorerst definiert (wird an mehreren Stellen in
+   tools/ und docs/ referenziert) — im neuen "Healthier"-Look aber nicht mehr
+   aktiv für Emphasis eingesetzt. Abbau erst nach Prüfung aller Konsument:innen. */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/Newsreader-VariableFont_opsz_wght.ttf') format('truetype-variations');
+}
+
 :root {
   /* ──────────────────────────── COLOR — Raw palette ────────────────────────────
-     duktus-pro.de Squarespace-Palette (verifiziert 2026-04-23, site.css):
-     accent #685AE6 · darkAccent #8A7AEF · lightAccent #E6E3F6 · ink #19192D · bg #F7F8FB
-     Darauf basierend aufgebaut: Iris-Scale = primary purple, Violet-Scale = deep plum accent. */
+     Ein-zu-eins aus dem Lovable-Relaunch (src/styles.css, oklch-Werte) übernommen —
+     keine erfundenen Zwischenstufen. Vorbild: Framer "Healthier". */
 
-  /* Iris — primary purple family (matches duktus-pro.de accent) */
-  --iris-50:  #F2F0FB;
-  --iris-100: #E6E3F6;   /* = duktus-pro.de lightAccent */
-  --iris-200: #CDC6ED;
-  --iris-300: #ACA0E4;
-  --iris-400: #8A7AEF;   /* = duktus-pro.de darkAccent (lighter hover) */
-  --iris-500: #685AE6;   /* = duktus-pro.de accent — primary default */
-  --iris-600: #4F44B8;
-  --iris-700: #3A3190;
-  --iris-800: #28225C;
+  /* Text-Skala (neutral, leicht blau-stichig) */
+  --ink:       oklch(0.2221 0      89.88);   /* Headlines, höchster Kontrast */
+  --ink-soft:  oklch(0.2931 0.0095 268.35);  /* Hover-Zustand von ink */
+  --body:      oklch(0.4344 0.0106 264.46);  /* Fließtext */
+  --subtle:    oklch(0.5924 0.0131 264.47);  /* sekundärer Text */
+  --faint:     oklch(0.6924 0.0131 264.47);  /* Hinweise, Timestamps */
 
-  /* Violet — deeper plum accent for emphasis contrast (serif emphasis words, eyebrow-accent) */
-  --violet-50:  #F7F0FA;
-  --violet-100: #ECDCF3;
-  --violet-200: #D6B4E2;
-  --violet-300: #BA88CB;
-  --violet-400: #9C5EAF;
-  --violet-500: #7A3B8E;   /* accent default — deep plum, klarer Kontrast zu iris (serif-Emphasis) */
-  --violet-600: #5E2C6E;
-  --violet-700: #42204E;
+  /* Marke — Akzentblau (Interaktion, Links, Badges, Logo — NICHT der Button-Fill) */
+  --brand:              oklch(0.5696 0.2176 259.85);
+  --brand-strong:       oklch(0.5043 0.1952 260.17);  /* Hover/aktiv, dunkler */
+  --brand-deep:         oklch(0.4257 0.1639 260.27);  /* Text auf Brand-Tint */
+  --brand-tint:         oklch(0.966  0.0154 247.99);  /* helle Flächen, Badges */
+  --brand-tint-strong:  oklch(0.9315 0.0318 246.7);   /* kräftigere helle Fläche */
 
-  /* Ceramic — cool-neutral ink scale (kept name, remapped from warm-beige to ink-neutral) */
-  --ceramic-50:  #F7F8FB;  /* page background — kühles Off-White, = duktus-pro.de safeLightAccent */
-  --ceramic-100: #EFF0F5;  /* card background */
-  --ceramic-200: #E4E6ED;  /* subtle panel */
-  --ceramic-300: #D1D4DF;  /* soft border */
-  --ceramic-400: #9EA2B3;  /* disabled / muted */
-  --ceramic-500: #5F6275;  /* muted fg — darkened from #6E7285 for WCAG AA 4.5:1 */
-  --ceramic-600: #484B5D;  /* secondary fg */
-  --ceramic-700: #2F3242;  /* body fg */
-  --ceramic-800: #19192D;  /* heading fg — = duktus-pro.de ink */
-  --ceramic-900: #0F0F1F;  /* near-black, never #000 */
+  /* Flächen */
+  --surface:       oklch(0.978  0.0062 255.47);
+  --surface-soft:  oklch(0.9904 0.0045 258.32);
+  --surface-cool:  oklch(0.9625 0.008  253.85);
+  --hairline:      oklch(0.9439 0.0126 255.51);  /* Standard-Border */
 
-  /* Semantic clinical colors (used sparingly — never as decoration) */
-  --semantic-success: #3E7D5E;   /* muted moss-green */
-  --semantic-info:    #4A6B85;   /* muted blue-slate */
-  --semantic-warn:    #C89A4A;   /* amber */
-  --semantic-danger:  #B84545;   /* muted red */
+  /* Onyx — Fast-Schwarz, Farbe der primären Buttons + Footer + dunkle Sektionen */
+  --onyx:       oklch(0.2221 0      89.88);   /* identisch zu --ink im Quellsystem */
+  --onyx-soft:  oklch(0.2931 0.0095 268.35);  /* Button-Hover */
 
-  /* ──────────────────────────── COLOR — Semantic tokens ──────────────────────────── */
-  --bg:            var(--ceramic-50);     /* page */
-  --bg-elev-1:     var(--ceramic-100);    /* cards, panels */
-  --bg-elev-2:     #FFFFFF;                /* modals, floating surfaces */
-  --bg-subtle:     var(--ceramic-200);    /* muted fills */
-  --bg-inverse:    var(--ceramic-800);    /* dark surfaces */
+  /* ──────────────────────────── COLOR — Semantic tokens ────────────────────────────
+     WICHTIG — Rollenwechsel ggü. der alten Iris/Violet-Palette:
+     --primary ist jetzt Onyx (Button-Farbe), NICHT mehr die Markenfarbe.
+     --accent ist jetzt das Akzentblau (Marke/Links/Badges), wie zuvor Violet. */
+  --bg:            oklch(1 0 0);          /* page — reines Weiß */
+  --bg-elev-1:     var(--surface);        /* cards, panels */
+  --bg-elev-2:     oklch(1 0 0);          /* modals, floating surfaces */
+  --bg-subtle:     var(--surface-cool);   /* muted fills */
+  --bg-inverse:    var(--onyx);           /* Footer, dunkle Sektionen */
 
-  --fg:            var(--ceramic-800);    /* primary text */
-  --fg-1:          var(--ceramic-700);    /* body */
-  --fg-2:          var(--ceramic-600);    /* secondary */
-  --fg-muted:      var(--ceramic-500);    /* hints, timestamps */
-  --fg-on-primary: #FFFFFF;
-  --fg-on-dark:    var(--ceramic-50);
+  --fg:            var(--ink);            /* primary text */
+  --fg-1:          var(--body);           /* body */
+  --fg-2:          var(--subtle);         /* secondary */
+  --fg-muted:      var(--faint);          /* hints, timestamps */
+  --fg-on-primary: oklch(1 0 0);
+  --fg-on-dark:    oklch(1 0 0);            /* höchste Emphase auf dunklem Grund (Footer, dunkle Sektionen) */
+  --fg-on-dark-1:  oklch(1 0 0 / 0.85);      /* Überschriften/Links auf dunklem Grund */
+  --fg-on-dark-2:  oklch(1 0 0 / 0.7);       /* Fließtext auf dunklem Grund */
+  --fg-on-dark-muted: oklch(1 0 0 / 0.5);    /* Hinweise auf dunklem Grund */
+  --border-on-dark:   oklch(1 0 0 / 0.12);   /* Trennlinien auf dunklem Grund */
 
-  --primary:       var(--iris-500);
-  --primary-hover: var(--iris-400);   /* lighter on hover — spiegelt duktus-pro.de darkAccent */
-  --primary-soft:  var(--iris-100);
+  --primary:       var(--onyx);           /* Button-/CTA-Farbe */
+  --primary-hover: var(--onyx-soft);
+  --primary-soft:  var(--surface-cool);
 
-  --accent:        var(--violet-500);
-  --accent-hover:  var(--violet-600);
-  --accent-soft:   var(--violet-100);
+  --accent:        var(--brand);          /* Marken-/Interaktionsfarbe */
+  --accent-hover:  var(--brand-strong);
+  --accent-soft:   var(--brand-tint);
 
-  --border:        var(--ceramic-300);
-  --border-soft:   rgba(25, 25, 45, 0.08);     /* ink-based border */
-  --border-strong: var(--ceramic-400);
-  --ring:          rgba(104, 90, 230, 0.35);   /* iris focus ring */
+  --border:        var(--hairline);
+  --border-soft:   oklch(0 0 0 / 0.06);
+  --border-strong: oklch(0.86 0.014 255 / 1);
+  --ring:          oklch(0.5696 0.2176 259.85 / 0.35);  /* Brand-Fokusring */
+
+  /* ──────────────────────────── PRODUKT-UI (duktus PRO App) ────────────────
+     Diese Tokens gelten fuer die Anwendung, nicht fuer die Marketing-Flaeche.
+     Sie waren bisher NUR in src/styles.css definiert — die App konnte sie
+     also gar nicht ueber brand:sync beziehen, obwohl die /designsystem-Seite
+     sie als "Designsprache fuer Website und App" fuehrt.
+
+     Statusfarben tragen in einer klinischen Dokumentation Bedeutung. Sie
+     duerfen nie allein durch Farbe kommunizieren — immer Farbe UND Wort
+     (Regel auf /designsystem). */
+  --success:      oklch(0.5842 0.1225 158.1);
+  --success-tint: oklch(0.9557 0.0324 158.1);
+  --warning:      oklch(0.6842 0.1441 68.5);
+  --warning-tint: oklch(0.9612 0.0439 78.5);
+  --danger:       oklch(0.577 0.245 27.325);
+  --danger-tint:  oklch(0.9524 0.0296 24.6);
+  --info:         oklch(0.5696 0.2176 259.85);
+  --info-tint:    oklch(0.9315 0.0318 246.7);
+
+  /* Flaechen der Anwendung: Arbeitsflaeche, Panel, Seitenleiste. */
+  --app-canvas: oklch(0.9825 0.0045 258.32);
+  --app-panel:  oklch(1 0 0);
+  --app-rail:   oklch(0.9625 0.008 253.85);
 
   /* ──────────────────────────── TYPE — Families ──────────────────────────── */
-  --font-display: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Rethink Sans', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans:    'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-serif:   'Newsreader', "Iowan Old Style", "Source Serif Pro", Palatino, Georgia, serif;
   --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
@@ -154,20 +201,32 @@
   --space-24:  96px;
 
   /* ──────────────────────────── RADIUS ──────────────────────────── */
-  --radius-sm:   6px;
-  --radius-md:   10px;
-  --radius-lg:   12px;
-  --radius-xl:   16px;
-  --radius-2xl:  22px;
-  --radius-full: 9999px;
+  /* Größere Radien als zuvor — Teil des "Healthier"-Looks (Pill-Nav, XXL-Karten). */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    12px;
+  --radius-xl:    16px;
+  --radius-2xl:   22px;
+  --radius-card:      24px;   /* Standardkarten, neu */
+  --radius-card-lg:   32px;   /* große Sektionen/Hero-Karten, neu */
+  --radius-full:  9999px;
+  --radius-pill:  999px;      /* Alias, für 1:1-Portierung aus dem Lovable-Code */
 
-  /* ──────────────────────────── SHADOW — Aura ──────────────────────────── */
-  /* Soft, cool, subtle — ink-based tint, nie shadow-lg. KANONISCH für alle Flächen. */
-  --aura-shadow:        0 4px 22px -6px rgba(25, 25, 45, 0.10);
-  --aura-shadow-hover:  0 10px 34px -8px rgba(25, 25, 45, 0.16);
-  --aura-shadow-inset:  inset 0 1px 0 0 rgba(255, 255, 255, 0.55);
-  --aura-shadow-sm:     0 1px 2px 0 rgba(25, 25, 45, 0.06), 0 1px 1px 0 rgba(25, 25, 45, 0.04);
-  --aura-focus-ring:    0 0 0 2px var(--iris-300);
+  /* ──────────────────────────── SHADOW ──────────────────────────── */
+  /* Alte aura-shadow-Namen bleiben erhalten (Kompatibilität mit bestehenden
+     Konsument:innen), Werte jetzt blau-stichig statt ink-stichig.
+     Neue shadow-*-Namen entsprechen 1:1 dem Lovable-Quellcode. */
+  --aura-shadow:        0 14px 40px -22px oklch(0.22 0.02 262 / 0.24);
+  --aura-shadow-hover:  0 28px 60px -32px oklch(0.22 0.02 262 / 0.34);
+  --aura-shadow-inset:  inset 0 1px 0 0 oklch(1 0 0 / 0.55);
+  --aura-shadow-sm:     0 1px 2px 0 oklch(0.22 0.02 262 / 0.06), 0 1px 1px 0 oklch(0.22 0.02 262 / 0.04);
+  --aura-focus-ring:    0 0 0 2px var(--brand-tint-strong);
+
+  --shadow-nav:    0 14px 40px -18px oklch(0.22 0.02 262 / 0.28);
+  --shadow-card:   0 14px 40px -22px oklch(0.22 0.02 262 / 0.24);
+  --shadow-lift:   0 28px 60px -32px oklch(0.22 0.02 262 / 0.34);
+  --shadow-hero:   0 50px 110px -50px oklch(0.22 0.02 262 / 0.45);
+  --shadow-brand:  0 20px 44px -22px oklch(0.5696 0.2176 259.85 / 0.5);
 
   /* ──────────────────────────── MOTION — Aura-Snap ────────────────────────────
      Curves nach Emil Kowalski: built-in CSS easings sind zu schwach.
