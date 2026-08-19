@@ -3385,39 +3385,39 @@
     {
       "date": "2026-08-19",
       "web": {
-        "up": 24,
+        "up": 25,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 24
+        "total": 25
       },
       "chat": {
-        "up": 24,
+        "up": 25,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 24
+        "total": 25
       },
       "doku": {
-        "up": 24,
+        "up": 25,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 24
+        "total": 25
       },
       "voice": {
-        "up": 24,
+        "up": 25,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 24
+        "total": 25
       },
       "b2b": {
-        "up": 24,
+        "up": 25,
         "degraded": 0,
         "down": 0,
         "maintenance": 0,
-        "total": 24
+        "total": 25
       }
     }
   ]
