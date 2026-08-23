@@ -1,26 +1,26 @@
 {
-  "checked_at": "2026-08-23T08:41:58.392Z",
+  "checked_at": "2026-08-23T09:03:41.068Z",
   "overall": "operational",
   "components": {
     "web": {
       "status": "operational",
-      "latency_ms": 535
+      "latency_ms": 499
     },
     "chat": {
       "status": "operational",
-      "latency_ms": 133
+      "latency_ms": 100
     },
     "doku": {
       "status": "operational",
-      "latency_ms": 133
+      "latency_ms": 100
     },
     "voice": {
       "status": "operational",
-      "latency_ms": 133
+      "latency_ms": 100
     },
     "b2b": {
       "status": "operational",
-      "latency_ms": 133
+      "latency_ms": 100
     }
   }
 }
