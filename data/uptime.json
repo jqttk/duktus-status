@@ -1,44 +1,6 @@
 {
   "days": [
     {
-      "date": "2026-06-28",
-      "web": {
-        "up": 33,
-        "degraded": 0,
-        "down": 0,
-        "maintenance": 0,
-        "total": 33
-      },
-      "chat": {
-        "up": 26,
-        "degraded": 0,
-        "down": 0,
-        "maintenance": 7,
-        "total": 33
-      },
-      "doku": {
-        "up": 26,
-        "degraded": 0,
-        "down": 0,
-        "maintenance": 7,
-        "total": 33
-      },
-      "voice": {
-        "up": 26,
-        "degraded": 0,
-        "down": 0,
-        "maintenance": 7,
-        "total": 33
-      },
-      "b2b": {
-        "up": 26,
-        "degraded": 0,
-        "down": 0,
-        "maintenance": 7,
-        "total": 33
-      }
-    },
-    {
       "date": "2026-06-29",
       "web": {
         "up": 24,
@@ -3418,6 +3380,44 @@
         "down": 0,
         "maintenance": 0,
         "total": 6
+      }
+    },
+    {
+      "date": "2026-09-26",
+      "web": {
+        "up": 1,
+        "degraded": 0,
+        "down": 0,
+        "maintenance": 0,
+        "total": 1
+      },
+      "chat": {
+        "up": 1,
+        "degraded": 0,
+        "down": 0,
+        "maintenance": 0,
+        "total": 1
+      },
+      "doku": {
+        "up": 1,
+        "degraded": 0,
+        "down": 0,
+        "maintenance": 0,
+        "total": 1
+      },
+      "voice": {
+        "up": 1,
+        "degraded": 0,
+        "down": 0,
+        "maintenance": 0,
+        "total": 1
+      },
+      "b2b": {
+        "up": 1,
+        "degraded": 0,
+        "down": 0,
+        "maintenance": 0,
+        "total": 1
       }
     }
   ]
