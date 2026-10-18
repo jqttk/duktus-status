@@ -1,26 +1,26 @@
 {
-  "checked_at": "2026-10-18T13:48:34.175Z",
-  "overall": "down",
+  "checked_at": "2026-10-18T16:57:39.714Z",
+  "overall": "operational",
   "components": {
     "web": {
       "status": "operational",
-      "latency_ms": 494
+      "latency_ms": 481
     },
     "chat": {
-      "status": "down",
-      "latency_ms": 10003
+      "status": "operational",
+      "latency_ms": 106
     },
     "doku": {
-      "status": "down",
-      "latency_ms": 10003
+      "status": "operational",
+      "latency_ms": 106
     },
     "voice": {
-      "status": "down",
-      "latency_ms": 10003
+      "status": "operational",
+      "latency_ms": 106
     },
     "b2b": {
-      "status": "down",
-      "latency_ms": 10003
+      "status": "operational",
+      "latency_ms": 106
     }
   }
 }
